@@ -24,24 +24,14 @@ const loadCategoryCards = async (categoryWise) => {
     displayAllPets(data.data);
 }
 
-// ------------------------------------------------------------------------------------
-// const cardDemo = {
-//     {
-//         "petId": 1,
-//         "breed": "Golden Retriever",
-//         "category": "Dog",
-//         "date_of_birth": "2023-01-15",
-//         "price": 1200,
-//         "image": "https://i.ibb.co.com/p0w744T/pet-1.jpg",
-//         "gender": "Male",
-//         "pet_details": "This friendly male Golden Retriever is energetic and loyal, making him a perfect companion for families. Born on January 15, 2023, he enjoys playing outdoors and is especially great with children. Fully vaccinated, he's ready to join your family and bring endless joy. Priced at $1200, he offers love, loyalty, and a lively spirit for those seeking a playful yet gentle dog.",
-//         "vaccinated_status": "Fully",
-//         "pet_name": "Sunny"
-//     }
-// }------------------------------------------------------------------------------------
+const modalPetDetails = async (petId) => {
+    const response = await fetch(`https://openapi.programming-hero.com/api/peddy/pet/${petId}`)
+    const data = await response.json();
+    petDetails(data.petData);
+}
 
-//-------------------------------------------2nd, 4th
-//displayAllPets
+
+//create displayAllPets
 
 const displayAllPets = (pets) => {
     const allPetsContainer = document.getElementById("allPetsContainer");
@@ -84,10 +74,10 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
                             <hr />
 
                             <div class="flex justify-around text-center">
-                                <button class="btn bg-white border-gray-200"><i
+                                <button id="addToList" onclick="shiftRight('${pet.image}')" class="btn bg-white border-gray-200"><i
                                         class="fa-regular fa-thumbs-up"></i></button>
                                 <button class="btn bg-white border-gray-200">Adopt</button>
-                                <button class="btn bg-white border-gray-200">Details</button>
+                                <button onclick="modalPetDetails(${pet.petId})" class="btn bg-white border-gray-200">Details</button>
                             </div>
                         </div>
         `;
@@ -95,6 +85,20 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
         allPetsContainer.append(card);
     })
 }
+
+//rightSideShift
+
+const shiftRight = (petImage) => {
+    const shiftRightContainer = document.getElementById("shiftRightContainer");
+
+    const div = document.createElement("div");
+    div.classList = "m-2"
+    div.innerHTML = `<img src=${petImage}>`
+
+    shiftRightContainer.append(div);
+
+}
+
 
 //---------------------------------------2nd
 //create displayCatagories
@@ -117,6 +121,51 @@ const displayCategories = (categories) => {
         //append
         categoryContainer.append(buttonContainer);
     });
+}
+
+//petDetails
+
+const petDetails = (details) => {
+
+    const { breed, gender, vaccinated_status, date_of_birth, price, image, pet_name, pet_details } = details
+
+    const modalContainer = document.getElementById("modal-container");
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+            
+        <div>
+            <img class="object-cover w-full" src=${image} alt="" />
+        </div>
+        <div class="my-5">
+            <h2 class="text-xl font-bold">${pet_name}</h2>
+                    <div class="grid grid-cols-2">
+                            <p><i class="fa-solid fa-border-all"></i> Breed: ${breed}</p>
+                            <p><i class="fa-solid fa-mercury"></i> Gender: ${gender}</p>
+                            <p><i class="fa-solid fa-mercury"></i> Vaccinated Status: ${vaccinated_status}</p>
+                            <p><i class="fa-regular fa-calendar"></i> Birth: ${date_of_birth}</p>
+                            <p><i class="fa-solid fa-dollar-sign"></i> Price: ${price}</p>
+                    </div>        
+        </div>
+        <hr />
+        <div class="my-5">
+        <h2 class="text-xl font-bold">Details Information</h2>
+        <p>${pet_details}</p>
+        </div>
+            <div class="modal-action justify-center">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn w-72">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    `
+
+    modalContainer.append(div);
+
+    my_modal_1.showModal()
 }
 
 loadAllCategories();
