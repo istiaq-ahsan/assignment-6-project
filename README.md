@@ -18,9 +18,9 @@ This website allows users to browse pets by categories like dogs, cats, rabbits,
 - **Template Literals**: Employed to easily construct dynamic strings, especially when including variables or expressions within the string, improving readability and flexibility.
 - **Async/Await**: Utilized to handle asynchronous operations (such as fetching data from an API) in a more straightforward and readable way than traditional promises.
 - **Destructuring Assignment**: Applied to extract values from objects or arrays into individual variables, simplifying access to object properties.
-- **Const and Let**: Used to declare variables with block-scoped visibility, ensuring variables are only accessible where needed and reducing potential bugs from variable hoisting.
+- **Sort by Price Button**: A Sort By Price button is available to help users sort pets in descending order based on their price.When clicked, the displayed pet cards are dynamically rearranged to show the highest-priced pets first.This feature ensures users can quickly browse through the best deals by sorting pets with just a single click.
 
 ## 🌐 Live Link to the Deployed Project
-- [assignment-6-project.netlify.app](https://assignment-6-project.netlify.app)
+- [6th-assignment-project.netlify.app](https://6th-assignment-project.netlify.app/)
 
 

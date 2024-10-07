@@ -15,6 +15,15 @@ const loadALLCards = async () => {
     displayAllPets(data.pets);
 }
 
+//global for sort button 
+
+const sortFunction = async () => {
+    const response = await fetch("https://openapi.programming-hero.com/api/peddy/pets")
+    const data = await response.json();
+    sortPets(data.pets);
+}
+
+
 //spinner global--------------call from handle category click
 
 const handleSpinner = (show) => {
@@ -85,6 +94,7 @@ const modalPetDetails = async (petId) => {
 
 const displayAllPets = (pets) => {
     const allPetsContainer = document.getElementById("allPetsContainer");
+
     allPetsContainer.innerHTML = "";
 
     if (pets.length == 0) {
@@ -181,7 +191,15 @@ const displayCategories = (categories) => {
     });
 }
 
+//sort button code--------------------
 
+const sortPets = (pets) => {
+    const sort = pets.sort((a, b) => (b.price - a.price));
+    displayAllPets(sort);
+}
+const sortButton = document.getElementById("sort").addEventListener('click', function () {
+    sortFunction();
+})
 
 //adopt modal countdown----------------------
 
@@ -287,3 +305,4 @@ const petDetails = (details) => {
 
 loadAllCategories();
 loadALLCards();
+
