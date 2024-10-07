@@ -21,5 +21,6 @@ This website allows users to browse pets by categories like dogs, cats, rabbits,
 - **Const and Let**: Used to declare variables with block-scoped visibility, ensuring variables are only accessible where needed and reducing potential bugs from variable hoisting.
 
 ## 🌐 Live Link to the Deployed Project
-- **assignment-6-project.netlify.app**
+- [assignment-6-project.netlify.app](https://assignment-6-project.netlify.app)
+
 
