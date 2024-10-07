@@ -15,8 +15,56 @@ const loadALLCards = async () => {
     displayAllPets(data.pets);
 }
 
-//-------------------------------------------for show catagory wise pet
-//create loadCatagoryCard
+//spinner global--------------call from handle category click
+
+const handleSpinner = (show) => {
+    const spinner = document.getElementById("spinner");
+    if (show) {
+        spinner.style.display = "block";
+    }
+    else {
+        spinner.style.display = "none";
+    }
+}
+
+//call from the category button then from here go to load category
+
+const handleCategoryClick = (categoryWise, button) => {
+
+    handleSpinner(true);
+
+    const allPetsContainer = document.getElementById("allPetsContainer");
+    allPetsContainer.innerHTML = "";
+
+    //delay
+    setTimeout(() => {
+        loadCategoryCards(categoryWise);
+        handleSpinner(false);
+    }, 2000);
+
+    updateButtonStyles(button);
+}
+
+// create update button style function ----------------------
+
+const updateButtonStyles = (activeButton) => {
+    const buttons = document.querySelectorAll("#categories button");
+
+    // Remove active styles from all buttons
+    buttons.forEach(button => {
+        button.classList.remove('bg-white');
+        button.classList.remove('btn-neutral');
+
+    });
+
+    // Add active styles to the currently clicked button
+    if (activeButton) {
+        activeButton.classList.add('btn-neutral');
+    }
+};
+
+//-----------------------------------for show category wise pet call from handle category click
+//create loadCategoryCard
 
 const loadCategoryCards = async (categoryWise) => {
     const response = await fetch(`https://openapi.programming-hero.com/api/peddy/category/${categoryWise}`)
@@ -56,12 +104,18 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
     }
 
     pets.forEach((pet) => {
-        console.log(pet);
+        // console.log(pet);
+
+        const name = pet.pet_name ? pet.pet_name : "Not provided";
+        const breed = pet.breed ? pet.breed : "Unknown Breed";
+        const birthDate = pet.date_of_birth ? pet.date_of_birth : "Not Available";
+        const gender = pet.gender ? pet.gender : " Not specified";
+        const price = pet.price ? pet.price : "Not Listed";
 
         //create card-------------
 
         const card = document.createElement("div");
-        card.classList = "card border"
+        card.classList = "card border border-gray-300"
         card.innerHTML = `
         <figure class="px-5 pt-5">
                             <img class="w-full object-cover rounded-xl" src=${pet.image}
@@ -69,18 +123,18 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
                         </figure>
                         <div class="card-body">
                             <h2 class="text-xl font-bold">${pet.pet_name}</h2>
-                            <p><i class="fa-solid fa-border-all"></i> Breed: ${pet.breed}</p>
-                            <p><i class="fa-regular fa-calendar"></i> Birth: ${pet.date_of_birth}</p>
-                            <p><i class="fa-solid fa-mercury"></i> Gender: ${pet.gender}</p>
-                            <p><i class="fa-solid fa-dollar-sign"></i> Price: ${pet.price}</p>
+                            <p><i class="fa-solid fa-border-all"></i> Breed: ${breed}</p>
+                            <p><i class="fa-regular fa-calendar"></i> Birth: ${birthDate}</p>
+                            <p><i class="fa-solid fa-mercury"></i> Gender: ${gender}</p>
+                            <p><i class="fa-solid fa-dollar-sign"></i> Price: ${price} $</p>
                             
                             <hr />
 
                             <div class="flex justify-around text-center gap-2">
-                                <button id="addToList" onclick="shiftRight('${pet.image}')" class="btn bg-white border-gray-200"><i
+                                <button id="addToList" onclick="shiftRight('${pet.image}')" class="btn bg-white border-gray-300"><i
                                         class="fa-regular fa-thumbs-up"></i></button>
-                                <button class="btn bg-white border-gray-200">Adopt</button>
-                                <button onclick="modalPetDetails(${pet.petId})" class="btn bg-white border-gray-200">Details</button>
+                                <button onclick="modalCountdown(this)" class="btn bg-white border-gray-300">Adopt</button>
+                                <button onclick="modalPetDetails(${pet.petId})" class="btn bg-white border-gray-300">Details</button>
                             </div>
                         </div>
         `;
@@ -96,7 +150,7 @@ const shiftRight = (petImage) => {
 
     const div = document.createElement("div");
     div.classList = "m-2"
-    div.innerHTML = `<img src=${petImage}>`
+    div.innerHTML = `<img class="p-2 border border-gray-300 rounded-xl" src=${petImage}>`
 
     shiftRightContainer.append(div);
 
@@ -110,13 +164,14 @@ const displayCategories = (categories) => {
     const categoryContainer = document.getElementById("categories");
 
     categories.forEach((item) => {
-        console.log(item);
+        // console.log(item);
 
         //create btn
         const buttonContainer = document.createElement("div");
 
         buttonContainer.innerHTML = `
-        <button onclick="loadCategoryCards('${item.category.toLowerCase()}')" class="btn bg-white border-gray-300 w-[150px] h-[50px] lg:w-[260px] lg:h-[70px]">
+        <button onclick="handleCategoryClick('${item.category.toLowerCase()}',this)" id="buttonAll" 
+        class="btn bg-white border-gray-300 w-[150px] h-[50px] md:w-[220px] md:h-[70px] lg:w-[260px] lg:h-[70px]">
         <img class="w-10 h-10" src=${item.category_icon} alt="" /> ${item.category}
         </button>
         `
@@ -126,11 +181,67 @@ const displayCategories = (categories) => {
     });
 }
 
+
+
+//adopt modal countdown----------------------
+
+const modalCountdown = (button) => {
+    const countdown = document.getElementById("modal-countdown");
+
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+    
+<dialog id="my_modal_2" class="modal flex justify-center items-center">
+  <div class="modal-box space-y-3 text-center">
+  <img class="mx-auto" src="https://img.icons8.com/?size=100&id=q6BlPrJZmxHV&format=png&color=000000" alt="" />
+    <h3 class="text-2xl font-bold">Congrates</h3>
+    <p class="text-xl">Adoption Process is Start For your Pet</p>
+    <p id="countdown-display" class="py-4 font-bold text-5xl"></p>
+  </div>
+  <form method="dialog">
+    
+  </form>
+</dialog>
+    `
+    countdown.append(div);
+
+    my_modal_2.showModal();
+
+    let countStart = 4;
+    const countDisplay = document.getElementById("countdown-display");
+
+
+    const interval = setInterval(() => {
+        countStart--
+        if (countStart > 0) {
+            countDisplay.innerHTML = `${countStart}`
+        }
+        else {
+            clearInterval(interval);
+            countdown.innerHTML = "";
+            button.innerHTML = "Adopted";
+            button.disabled = "true";
+        }
+    }, 1000);
+
+
+}
+
+
 //petDetails modal----------------------------------again call from card details
 
 const petDetails = (details) => {
 
-    const { breed, gender, vaccinated_status, date_of_birth, price, image, pet_name, pet_details } = details
+    const { breed, gender, vaccinated_status, date_of_birth, price, image, pet_name, pet_details } = details;
+
+    const name = pet_name ? pet_name : "Not provided";
+    const petBreed = breed ? breed : "Unknown Breed";
+    const petBirthDate = date_of_birth ? date_of_birth : "Not Available";
+    const petGender = gender ? gender : " Not specified";
+    const petPrice = price ? price : "Not Listed";
+    const vaccine = vaccinated_status ? vaccinated_status : "Not provided";
+    const description = pet_details ? pet_details : "Description unavailable";
 
     const modalContainer = document.getElementById("modal-container");
 
@@ -147,11 +258,11 @@ const petDetails = (details) => {
         <div class="my-5">
             <h2 class="text-xl font-bold">${pet_name}</h2>
                     <div class="grid grid-cols-2">
-                            <p><i class="fa-solid fa-border-all"></i> Breed: ${breed}</p>
-                            <p><i class="fa-solid fa-mercury"></i> Gender: ${gender}</p>
-                            <p><i class="fa-solid fa-mercury"></i> Vaccinated Status: ${vaccinated_status}</p>
-                            <p><i class="fa-regular fa-calendar"></i> Birth: ${date_of_birth}</p>
-                            <p><i class="fa-solid fa-dollar-sign"></i> Price: ${price}</p>
+                            <p><i class="fa-solid fa-border-all"></i> Breed: ${petBreed}</p>
+                            <p><i class="fa-solid fa-mercury"></i> Gender: ${petGender}</p>
+                            <p><i class="fa-solid fa-mercury"></i> Vaccinated Status: ${vaccine}</p>
+                            <p><i class="fa-regular fa-calendar"></i> Birth: ${petBirthDate}</p>
+                            <p><i class="fa-solid fa-dollar-sign"></i> Price: ${petPrice} $</p>
                     </div>        
         </div>
         <hr />
@@ -162,7 +273,7 @@ const petDetails = (details) => {
             <div class="modal-action justify-center">
                 <form method="dialog">
                     <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn w-72">Cancel</button>
+                    <button class="btn w-80 lg:w-96">Cancel</button>
                 </form>
             </div>
         </div>

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment 6</title>
 
+    <link rel="stylesheet" href="style.css">
+
     <!-- daisyui cdn -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.12/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -74,7 +76,9 @@
                     looking at its layout. The point of using Lorem Ipsum is that it has a.</p>
             </div>
             <div class="text-center my-5">
-                <button class="btn bg-gray-500 text-white">View More</button>
+                <button onclick="document.getElementById('adopt-section').scrollIntoView({behavior:'smooth'})"
+                    class="btn bg-gray-500 text-white">View
+                    More</button>
             </div>
             <div class="flex justify-center items-center">
                 <img class="" src="./images/pet.webp" alt="">
@@ -83,7 +87,7 @@
 
         <!-- -------------------------------------------------------------- -->
 
-        <section>
+        <section id="adopt-section">
             <div class="text-center">
                 <h1 class="text-4xl font-bold mt-5">Adopt Your Best Friend</h1>
                 <p class="text-gray-700 lg:w-[650px] mx-auto my-5">It is a long established fact that a reader will be
@@ -99,11 +103,17 @@
                 <h2 class="text-xl font-bold">Best Deal For You</h2>
                 <button class="btn  bg-gray-500 text-white">Sort By Price</button>
             </div>
+
+            <!-- here we showed our spinner -->
+            <div id="spinner" style="display: none;" class="text-center"><span
+                    class="loading loading-bars loading-lg"></span></div>
+
             <div class="flex flex-col lg:flex-row lg:gap-5">
-                <div id="allPetsContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-3  lg:w-[70%]">
+                <div id="allPetsContainer"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2 gap-3 border border-gray-200 rounded-xl  lg:w-[70%]">
 
                 </div>
-                <div class=" border rounded-xl lg:w-[30%]">
+                <div class=" border border-gray-200 rounded-xl lg:w-[30%]">
                     <div id="shiftRightContainer" class=" grid grid-cols-2 flex justify-around">
 
                     </div>
@@ -112,8 +122,13 @@
         </section>
     </main>
 
+
+
     <!-- Open the modal  -->
     <div id="modal-container"></div>
+
+    <!-- open a modal for coundown -->
+    <div id="modal-countdown"></div>
 
 
     <!-- -------------------------------------------------------------------------------------- -->
@@ -150,9 +165,10 @@
                 <label class="input input-bordered flex items-center gap-2 bg-stone-800 text-white">
                     <input type="text" class="grow" placeholder="Enter Your Email" />
                 </label>
-                <button class="btn w-52 bg-gray-500 text-white border-none">
-                    Subscribe
-                </button>
+                <a href="https://www.youtube.com/channel/UC0JEYL5rKB69wtzOJK8-u7A"><button
+                        class="btn mt-3 w-52 bg-gray-500 text-white border-none">
+                        Subscribe
+                    </button></a>
             </div>
 
         </div>
