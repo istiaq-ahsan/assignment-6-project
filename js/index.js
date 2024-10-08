@@ -140,7 +140,7 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
                             
                             <hr />
 
-                            <div class="flex justify-center text-center gap-5 lg:gap-3">
+                            <div class="flex justify-center text-center gap-5">
                                 <button id="addToList" onclick="shiftRight('${pet.image}')" class="btn bg-white border-gray-300"><i
                                         class="fa-regular fa-thumbs-up"></i></button>
                                 <button onclick="modalCountdown(this)" class="btn bg-white border-gray-300">Adopt</button>
@@ -200,7 +200,20 @@ const sortPets = (pets) => {
 }
 const sortButton = document.getElementById("sort").addEventListener('click', function () {
     sortFunction();
+    sorted();
 })
+
+const sorted = () => {
+    const buttons = document.querySelectorAll("#categories button");
+
+    // Remove active styles from all buttons
+    buttons.forEach(button => {
+
+        button.classList.remove('btn-neutral', 'rounded-full');
+
+    });
+
+};
 
 //adopt modal countdown----------------------
 
