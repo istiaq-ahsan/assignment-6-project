@@ -62,13 +62,13 @@ const updateButtonStyles = (activeButton) => {
     // Remove active styles from all buttons
     buttons.forEach(button => {
         button.classList.remove('bg-white');
-        button.classList.remove('btn-neutral');
+        button.classList.remove('btn-neutral', 'rounded-full');
 
     });
 
     // Add active styles to the currently clicked button
     if (activeButton) {
-        activeButton.classList.add('btn-neutral');
+        activeButton.classList.add('btn-neutral', 'rounded-full');
     }
 };
 
@@ -140,7 +140,7 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
                             
                             <hr />
 
-                            <div class="flex justify-around text-center gap-2">
+                            <div class="flex justify-center text-center gap-5 lg:gap-3">
                                 <button id="addToList" onclick="shiftRight('${pet.image}')" class="btn bg-white border-gray-300"><i
                                         class="fa-regular fa-thumbs-up"></i></button>
                                 <button onclick="modalCountdown(this)" class="btn bg-white border-gray-300">Adopt</button>
@@ -178,6 +178,7 @@ const displayCategories = (categories) => {
 
         //create btn
         const buttonContainer = document.createElement("div");
+
 
         buttonContainer.innerHTML = `
         <button onclick="handleCategoryClick('${item.category.toLowerCase()}',this)" id="buttonAll" 
@@ -226,14 +227,15 @@ const modalCountdown = (button) => {
 
     my_modal_2.showModal();
 
-    let countStart = 4;
+    let countStart = 3;
     const countDisplay = document.getElementById("countdown-display");
-
+    countDisplay.innerHTML = `${countStart}`;
 
     const interval = setInterval(() => {
-        countStart--
-        if (countStart > 0) {
-            countDisplay.innerHTML = `${countStart}`
+
+        if (countStart > 1) {
+            countStart--;
+            countDisplay.innerHTML = `${countStart}`;
         }
         else {
             clearInterval(interval);
